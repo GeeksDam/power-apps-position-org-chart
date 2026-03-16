@@ -6,10 +6,6 @@ A **Power Apps Component Framework (PCF)** control that renders an interactive o
 
 ## Screenshot
 
-> _Add a screenshot of the rendered org chart here._
-
----
-
 ## Features
 
 - Renders a hierarchical org chart for the **Position** table in Dataverse
@@ -111,10 +107,8 @@ This project is licensed under the **MIT License** — see the [LICENSE](LICENSE
 
 ## Contributing
 
-Pull requests are welcome! For major changes, please open an issue first to discuss what you'd like to change.
+Pull requests are welcome!
+Please create an issue to discuss the change
+For updates suggestions please create an issue 
 
 ---
-
-## Author
-
-**Damola Ojoniyi**
