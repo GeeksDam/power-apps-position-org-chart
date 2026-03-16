@@ -5,7 +5,11 @@ A **Power Apps Component Framework (PCF)** control that renders an interactive o
 ---
 
 ## Screenshot
+
 ![Screenshot](pcf_positionchart/image.png)
+
+---
+
 ## Features
 
 - Renders a hierarchical org chart for the **Position** table in Dataverse
@@ -83,18 +87,30 @@ msbuild /t:build /restore /p:configuration=Release
 ## Project Structure
 
 ```
-pcf_positionchart/          # PCF TypeScript project
-│   positionchart/
-│   ├── index.ts            # Control logic
-│   ├── ControlManifest.Input.xml
-│   └── css/
-│       └── positionchart.css
-│   package.json
-│   tsconfig.json
+power-apps-position-org-chart/
+├── README.md
+├── LICENSE
+├── .gitignore
 │
-poschart/                   # Dataverse solution packaging project
-│   poschart.cdsproj
-│   src/Other/Solution.xml
+├── pcf_positionchart/          # PCF TypeScript project
+│   ├── image.png               # Screenshot used in README
+│   ├── package.json
+│   ├── tsconfig.json
+│   ├── pcf_positionchart.pcfproj
+│   ├── pcfconfig.json
+│   ├── eslint.config.mjs
+│   └── positionchart/
+│       ├── index.ts            # Control logic
+│       ├── ControlManifest.Input.xml
+│       └── css/
+│           └── positionchart.css
+│
+└── poschart/                   # Dataverse solution packaging project
+    ├── poschart.cdsproj
+    └── src/Other/
+        ├── Solution.xml
+        ├── Customizations.xml
+        └── Relationships.xml
 ```
 
 ---
