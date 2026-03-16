@@ -5,7 +5,7 @@ A **Power Apps Component Framework (PCF)** control that renders an interactive o
 ---
 
 ## Screenshot
-
+![https://github.com/GeeksDam/power-apps-position-org-chart/blob/master/pcf_positionchart/image.png]
 ## Features
 
 - Renders a hierarchical org chart for the **Position** table in Dataverse
