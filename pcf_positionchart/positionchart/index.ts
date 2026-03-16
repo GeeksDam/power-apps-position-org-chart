@@ -158,6 +158,13 @@ export class positionchart implements ComponentFramework.StandardControl<IInputs
 
     private async _loadPositions(): Promise<void> {
         const { table, nameCol, parentCol } = this._getConfig();
+
+        // Validate logical names to prevent OData query injection
+        if (!this._isValidLogicalName(table) || !this._isValidLogicalName(nameCol) || !this._isValidLogicalName(parentCol)) {
+            this._setStatus("Configuration error: table and column names must contain only lowercase letters, digits, and underscores.", "error");
+            return;
+        }
+
         const parentValCol = `_${parentCol}_value`;
         const idCol        = `${table}id`;
 
@@ -178,6 +185,11 @@ export class positionchart implements ComponentFramework.StandardControl<IInputs
         }
     }
 
+    /** Returns true only for valid Dataverse logical names (lowercase letters, digits, underscores, max 100 chars). */
+    private _isValidLogicalName(name: string): boolean {
+        return /^[a-z_][a-z0-9_]{0,99}$/.test(name);
+    }
+
     /** Page through all Dataverse records handling OData @odata.nextLink paging. */
     private async _fetchAllPages(
         table: string,
@@ -187,8 +199,14 @@ export class positionchart implements ComponentFramework.StandardControl<IInputs
         parentValCol: string
     ): Promise<void> {
         let nextOptions: string | undefined = options;
+        let pageCount = 0;
+        const MAX_PAGES = 50; // safety cap — 50 × 5 000 = 250 000 records max
 
         while (nextOptions) {
+            if (++pageCount > MAX_PAGES) {
+                this._setStatus(`Loaded first ${this._positionsMap.size} positions (page limit reached).`, "warning");
+                break;
+            }
             const result = await this._context.webAPI.retrieveMultipleRecords(
                 table,
                 nextOptions,
@@ -294,14 +312,17 @@ export class positionchart implements ComponentFramework.StandardControl<IInputs
         );
     }
 
-    /** Recursively build a TreeNode subtree from a given position downward. */
-    private _buildDescendants(nodeId: string, isSelected: boolean): TreeNode {
-        const pos      = this._positionsMap.get(nodeId)!;
-        const childIds = this._childrenMap.get(nodeId) ?? [];
+    /** Recursively build a TreeNode subtree from a given position downward.
+     *  The visited set prevents infinite recursion if Dataverse data contains circular parent references.
+     */
+    private _buildDescendants(nodeId: string, isSelected: boolean, visited: Set<string> = new Set<string>()): TreeNode {
+        visited.add(nodeId);
+        const pos           = this._positionsMap.get(nodeId)!;
+        const safeChildIds  = (this._childrenMap.get(nodeId) ?? []).filter(cid => !visited.has(cid));
         return {
             id:         nodeId,
             name:       pos.name,
-            children:   childIds.map(cid => this._buildDescendants(cid, false)),
+            children:   safeChildIds.map(cid => this._buildDescendants(cid, false, visited)),
             isSelected,
             isAncestor: false,
         };

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <manifest>
-  <control namespace="positionchart" constructor="positionchart" version="0.0.8"
+  <control namespace="positionchart" constructor="positionchart" version="0.0.9"
            display-name-key="Position_Org_Chart_Display"
            description-key="Position_Org_Chart_Desc"
            control-type="standard">
