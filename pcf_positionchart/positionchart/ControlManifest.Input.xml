@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<manifest>
+  <control namespace="positionchart" constructor="positionchart" version="0.0.8"
+           display-name-key="Position_Org_Chart_Display"
+           description-key="Position_Org_Chart_Desc"
+           control-type="standard">
+
+    <external-service-usage enabled="false" />
+
+    <!--
+      Bind this control to a Single Line Text field on the form.
+      The field value pre-fills the position name search box.
+    -->
+    <property name="defaultPositionName"
+              display-name-key="Position"
+              description-key="Default_Position_Name_Desc"
+              of-type="SingleLine.Text"
+              usage="bound"
+              required="false" />
+
+    <!-- Logical name of the table (e.g. position) -->
+    <property name="tableLogicalName"
+              display-name-key="Entity"
+              description-key="Table_LogicalName_Desc"
+              of-type="SingleLine.Text"
+              usage="input"
+              required="true" />
+
+    <!-- Logical name of the position name column (e.g. name) -->
+    <property name="nameColumn"
+              display-name-key="Position_Name"
+              description-key="Name_Column_Desc"
+              of-type="SingleLine.Text"
+              usage="input"
+              required="true" />
+
+    <!-- Logical name of the parent lookup column WITHOUT leading underscore and trailing _value (e.g. parentpositionid) -->
+    <property name="parentLookupColumn"
+              display-name-key="Position_Parent"
+              description-key="Parent_Lookup_Desc"
+              of-type="SingleLine.Text"
+              usage="input"
+              required="true" />
+
+    <resources>
+      <code path="index.ts" order="1" />
+      <css path="css/positionchart.css" order="1" />
+    </resources>
+
+    <feature-usage>
+      <uses-feature name="WebAPI" required="true" />
+    </feature-usage>
+
+  </control>
+</manifest>
